@@ -4,9 +4,9 @@
 And check an [example](./example-apps-script.gs) how to use it.
 Future (stable) APIs will contain a speacial header to notify you in case of breaking changes.
 
-## /unstable/v2
+## /v1
 
-### POST /unstable/v2/dmq/make
+### POST /v1/dmq/make
 
 *The following API reference is subject to change without notice.*
 
@@ -48,6 +48,10 @@ Future (stable) APIs will contain a speacial header to notify you in case of bre
     + Available fonts:
         * Merriweather Sans
         * Open Sans
+
+## /unstable/v2
+
+obsolete; undocumented
 
 ## /unstable/v1
 

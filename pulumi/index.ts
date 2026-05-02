@@ -3,6 +3,7 @@ import * as aws from "@pulumi/aws";
 import { DMQs } from "./dmqs";
 import RestApiGateway from "./components/apiGateway";
 import VideoRender from "./video-render";
+import SmcImport from "./smc-import";
 import CommonRes from "./commonRes";
 import HelperLambda from "./helperLambda";
 import { MetaProps } from "./utils";
@@ -81,6 +82,13 @@ async function main() {
     sparkApiGwExec,
     sfnExec,
   });
+  const smcImport = new SmcImport("SmcImport", {
+    meta,
+    gcpConfigParam,
+    sparkLambda,
+    sparkApiGwExec,
+    sfnExec,
+  });
 
   new RestApiGateway(`rest-Api`, {
     tags,
@@ -98,7 +106,7 @@ async function main() {
       };
     }),
 
-    routes: [...videoRender.routes, ...dmqs.routes],
+    routes: [...videoRender.routes, ...dmqs.routes, ...smcImport.routes],
   });
 }
 

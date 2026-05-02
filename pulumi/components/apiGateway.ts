@@ -13,6 +13,12 @@ export interface ApiGatewayRoute {
   requestTemplate?: {
     "application/json": pulumi.Input<string>;
   };
+  /**
+   * If set, every response on this route includes the `x-deprecated-version`
+   * header carrying this value. Clients are expected to surface it as a
+   * deprecation notice. Use it to flag legacy paths that will be removed.
+   */
+  deprecated?: Input<string>;
 }
 
 export interface ApiKey {
@@ -157,6 +163,15 @@ export default class RestApiGateway extends pulumi.ComponentResource {
       );
       methods.push(apiMethod200);
 
+      const deprecationHeaderMethodParams = route.deprecated
+        ? { "method.response.header.x-deprecated-version": true }
+        : undefined;
+      const deprecationHeaderIntegrationParams = route.deprecated
+        ? {
+            "method.response.header.x-deprecated-version": pulumi.interpolate`'${route.deprecated}'`,
+          }
+        : undefined;
+
       const methodResp200 = new aws.apigateway.MethodResponse(
         `${name}-MethodResp-${index}`,
         {
@@ -164,6 +179,7 @@ export default class RestApiGateway extends pulumi.ComponentResource {
           resourceId: currentResource,
           httpMethod: apiMethod200.httpMethod,
           statusCode: "200",
+          responseParameters: deprecationHeaderMethodParams,
         },
         { parent: this },
       );
@@ -219,6 +235,7 @@ export default class RestApiGateway extends pulumi.ComponentResource {
                 "application/json": '$input.path("$.body")\n#set($context.responseOverride.status = $input.path(\'$.statusCode\'))',
               }
             : undefined,
+          responseParameters: deprecationHeaderIntegrationParams,
         },
         { parent: this },
       );
@@ -231,6 +248,7 @@ export default class RestApiGateway extends pulumi.ComponentResource {
             resourceId: currentResource,
             httpMethod: apiMethod200.httpMethod,
             statusCode: "500",
+            responseParameters: deprecationHeaderMethodParams,
           },
           { parent: this },
         );
@@ -243,6 +261,7 @@ export default class RestApiGateway extends pulumi.ComponentResource {
             httpMethod: integration200.httpMethod,
             statusCode: methodResp500.statusCode,
             selectionPattern: '.+',
+            responseParameters: deprecationHeaderIntegrationParams,
           },
           { parent: this },
         );
@@ -281,6 +300,7 @@ export default class RestApiGateway extends pulumi.ComponentResource {
                   execRole: route.execRole?.arn,
                   authorizer: route.authorizer?.arn,
                   requestTemplate: route.requestTemplate,
+                  deprecated: route.deprecated,
                 };
               }),
             })

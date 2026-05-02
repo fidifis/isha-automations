@@ -3,7 +3,7 @@
 
 const APIKEY = "redacted"; // API key. This key is uniqe for your team and has its usage restrictions. DO NOT SHARE THIS WITH ANYONE!
 const API_URL = "api.isha-automations.fidifis.com"; // URL of API to call
-const API_PATH = "/unstable/v2/dmq/make"; // Unstable path will be deprecated soon. When it happens, call fails. Check documentation for newest path.
+const API_PATH = "/v1/dmq/make"; // API path. If the call fails because the path was removed, check documentation for the newest path.
 
 const DATE_COLUMN = 1; // Column containg date of DMQ
 const DMQ_TRASNS_COLUMN = 3; // Column containg text translation

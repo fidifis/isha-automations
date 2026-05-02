@@ -4,6 +4,7 @@
 
 - [Daily Mystic Quotes (DMQ)](./dmq/README.md)
 - [Video Render](./video-render/README.md)
+- [SMC Import](./smc-import/README.md)
 
 ## Google integration
 
@@ -46,8 +47,8 @@ Shared Drive IDs are typically shorter than regular folder IDs, usually around 1
 ## API Authorization
 
 To be able to make any API call you need to auth.
-Each team gets an ID and Key.
-To use API provide this values in headers of each request.
+Each team gets an API key bound to a usage plan (rate limit + daily quota).
+Provide it in the `x-api-key` header of every request.
 
 ```json
 {
@@ -57,15 +58,32 @@ To use API provide this values in headers of each request.
 }
 ```
 
-Currently we use HTTP API gateway with custom authorizer. For future we plan using a REST api with Api keys and Usage plans. **So the API key may change in future!** There shouldn't be any other change for api consumers.
+The API runs on AWS API Gateway (REST) with API keys and usage plans. Keys are issued per team (e.g. `gr-cz`, `gr-demo`); contact the project administrators to get one.
 
-### The source
+## Deprecation header
 
-The API keys are stored inside AWS Systems Manager Parameter Store.
-The Authorizer Lambda has a base path to recursively search for keys.
-Currently this is set to `/isha/auth/{env}`
-Then follows a key name - composed of department and sub-entity (country code, in case of Global Reach) 
-`/isha/auth/live/GR/cz`
+Routes that have been superseded or are scheduled for removal include the
+`x-deprecated-version` response header on every call (both 2xx and error
+responses). Its value is a short human-readable message explaining the
+deprecation - typically "use path X instead" or a removal date.
+
+If your client sees this header, plan a migration: the old path will eventually
+stop working. Stable (non-deprecated) routes do **not** emit this header, so
+checking for its presence is a safe deprecation signal.
+
+The Apps Script examples in this repo show one way of surfacing it:
+
+```js
+function deprecationAlert(response) {
+  const headers = response.getHeaders();
+  const deprecationMessage = headers['x-deprecated-version'];
+  if (deprecationMessage !== undefined) {
+    SpreadsheetApp.getUi().alert(
+      "The API call you are using is deprecated. Migrate to the new version. Message: " + deprecationMessage,
+    );
+  }
+}
+```
 
 ## Fonts
 
