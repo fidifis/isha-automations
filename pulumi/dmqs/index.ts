@@ -12,7 +12,6 @@ export interface DMQsProps {
   assetsBucket: aws.s3.BucketV2;
   gcpConfigParam: aws.ssm.Parameter;
   sparkLambda: GoLambda;
-  otpLambda: GoLambda;
   sparkApiGwExec: aws.iam.Role;
   sfnExec: aws.iam.Role;
 }

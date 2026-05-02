@@ -11,7 +11,7 @@ export interface HelperProps {
 
 export default class HelperLambda extends pulumi.ComponentResource {
   public readonly transferLambda: GoLambda;
-  public readonly otpLambda: GoLambda;
+  // public readonly otpLambda: GoLambda;
 
   constructor(
     name: string,
@@ -54,30 +54,30 @@ export default class HelperLambda extends pulumi.ComponentResource {
       },
       { parent: this },
     );
-    this.otpLambda = new GoLambda(
-      `${name}-OtpAuth`,
-      {
-        tags: args.meta.tags,
-        source: {
-          code: "../bin/authorizer-otp.zip",
-          hash: HashFolder("../code/authorizer-otp/"),
-        },
-        architecture: Arch.arm,
-        rolePolicyStatements: [otpAuthLambdaPolicy],
-        xray: true,
-        logs: { retention: 30 },
-        env: {
-          variables: {
-            SSM_PREFIX_PATH: `/isha/${pulumi.getStack()}/otp`,
-          },
-        },
-      },
-      { parent: this },
-    );
+    // this.otpLambda = new GoLambda(
+    //   `${name}-OtpAuth`,
+    //   {
+    //     tags: args.meta.tags,
+    //     source: {
+    //       code: "../bin/authorizer-otp.zip",
+    //       hash: HashFolder("../code/authorizer-otp/"),
+    //     },
+    //     architecture: Arch.arm,
+    //     rolePolicyStatements: [otpAuthLambdaPolicy],
+    //     xray: true,
+    //     logs: { retention: 30 },
+    //     env: {
+    //       variables: {
+    //         SSM_PREFIX_PATH: `/isha/${pulumi.getStack()}/otp`,
+    //       },
+    //     },
+    //   },
+    //   { parent: this },
+    // );
 
     this.registerOutputs({
       transferLambda: this.transferLambda,
-      otpLambda: this.otpLambda,
+      // otpLambda: this.otpLambda,
     });
   }
 }

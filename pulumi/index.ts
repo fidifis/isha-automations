@@ -67,7 +67,6 @@ async function main() {
     procFilesBucket,
     gcpConfigParam,
     sparkLambda,
-    otpLambda: helperLambda.otpLambda,
     sparkApiGwExec,
     sfnExec,
   });
