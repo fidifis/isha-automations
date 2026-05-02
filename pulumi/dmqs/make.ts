@@ -231,7 +231,7 @@ export function create(parent: pulumi.Resource, name: string, args: DMQsProps) {
 
   const routes = [
     {
-      path: "/unstable/v2/dmq/make",
+      path: "/v1/dmq/make",
       method: "POST",
       eventHandler: args.sparkLambda.lambda,
       execRole: args.sparkApiGwExec,

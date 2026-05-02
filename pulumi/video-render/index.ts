@@ -583,7 +583,7 @@ export default class VideoRender extends pulumi.ComponentResource {
 
     this.routes = [
       {
-        path: "/unstable/v2/video-render/reel",
+        path: "/v1/video-render/reel",
         method: "POST",
         eventHandler: args.sparkLambda.lambda,
         execRole: args.sparkApiGwExec,
