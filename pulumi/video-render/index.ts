@@ -66,6 +66,12 @@ export default class VideoRender extends pulumi.ComponentResource {
                     ],
                     resources: ["*"],
                   },
+                  {
+                    actions: ["logs:CreateLogStream", "logs:PutLogEvents"],
+                    resources: [
+                      pulumi.interpolate`arn:aws:logs:${args.meta.region}:${args.meta.accountId}:log-group:/aws/lambda/${pulumi.getProject()}-${pulumi.getStack()}-${name}*`,
+                    ],
+                  },
                 ],
               },
               { parent: this },
@@ -76,12 +82,6 @@ export default class VideoRender extends pulumi.ComponentResource {
             policy: aws.iam.getPolicyDocumentOutput(
               {
                 statements: [
-                  {
-                    actions: ["logs:CreateLogStream", "logs:PutLogEvents"],
-                    resources: [
-                      pulumi.interpolate`arn:aws:logs:${args.meta.region}:${args.meta.accountId}:log-group:/aws/lambda/${pulumi.getProject()}-${pulumi.getStack()}-${name}*`,
-                    ],
-                  },
                   {
                     actions: ["ssm:GetParameter"],
                     resources: [args.gcpConfigParam.arn],
