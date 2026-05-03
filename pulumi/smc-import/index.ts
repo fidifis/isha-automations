@@ -87,7 +87,7 @@ export default class SmcImport extends pulumi.ComponentResource {
         xray,
         role: smcRole,
         architecture: Arch.arm,
-        timeout: 60,
+        timeout: 300,
         memory: 128,
         logs: { retention: 30 },
         env: {
@@ -393,7 +393,7 @@ export default class SmcImport extends pulumi.ComponentResource {
       },
       {
         path: "/v1/smc-import/proxy-fetch",
-        method: "GET",
+        method: "POST",
         eventHandler: proxy.lambda,
         execRole: apiGwLambdaSMCProxyRole,
       },

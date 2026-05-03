@@ -53,7 +53,7 @@
         devShell = pkgs.mkShell {
           PULUMI_CONFIG_PASSPHRASE = "";
           buildInputs = with pkgs; [
-            pulumi
+            pulumi-bin
             pulumiPackages.pulumi-language-nodejs
             nodejs
             go

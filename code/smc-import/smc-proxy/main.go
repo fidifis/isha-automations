@@ -2,15 +2,18 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 
 	"go.uber.org/zap"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/aws/aws-sdk-go-v2/aws"
 
 	"google.golang.org/api/sheets/v4"
 
+	"lambdalib/apiGwResponse"
 	"lambdalib/clientInit"
 	"lambdalib/configRead"
 )
@@ -63,6 +66,8 @@ func init() {
 
 	ctx := context.Background()
 
+	sheetCache = make(map[string]map[string]int)
+
 	var err error
 	var cfg *aws.Config
 
@@ -110,7 +115,7 @@ func findRowById(sheetId string, sheet string, videoId string) (int, error) {
         for i, row := range values {
             if len(row) > 0 {
                 if cell, ok := row[0].(string); ok {
-                    rowIndex := offset + i - 1 // zero based index
+                    rowIndex := offset + i // zero based index
                     cache[cell] = rowIndex
                     if cell == videoId {
                         sheetCache[cacheKey] = cache
@@ -146,41 +151,49 @@ func getStrValue(row []interface{}, i int) string {
 	return val
 }
 
-func HandleRequest(ctx context.Context, event Event) (Result, error) {
-	videoRow, err := findRowById(event.SheetId, event.EnSheet,event.VideoId)
+func HandleRequest(ctx context.Context, event events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	var request Event
+	err := json.Unmarshal([]byte(event.Body), &request)
 	if err != nil {
-		return Result{}, err
+		return apiGwResponse.ErrResponse(err.Error(), ctx)
 	}
 
-	valueRange := fmt.Sprintf("%s!%d:%d", event.EnSheet, videoRow, videoRow)
-	result, err := sheetSvc.Spreadsheets.Values.Get(event.SheetId, valueRange).Do()
+	videoRow, err := findRowById(request.SheetId, request.EnSheet,request.VideoId)
 	if err != nil {
-		return Result{}, err
+		return apiGwResponse.ErrResponse(err.Error(), ctx)
+	}
+
+	valueRange := fmt.Sprintf("%s!%d:%d", request.EnSheet, videoRow, videoRow)
+	result, err := sheetSvc.Spreadsheets.Values.Get(request.SheetId, valueRange).Do()
+	if err != nil {
+		return apiGwResponse.ErrResponse(err.Error(), ctx)
 	}
 
 	if len(result.Values) == 0 {
-		return Result{}, fmt.Errorf("GetRange returned 0 values")
+		return apiGwResponse.ErrResponse("GetRange returned 0 values", ctx)
 	}
 
 	row := result.Values[0]
 
-	trVideoRow, err := findRowById(event.SheetId, event.TranslationSheet, event.VideoId)
+	trVideoRow, err := findRowById(request.SheetId, request.TranslationSheet, request.VideoId)
 	if err != nil {
-		return Result{}, err
+		return apiGwResponse.ErrResponse(err.Error(), ctx)
 	}
-	trValueRange := fmt.Sprintf("%s!%d:%d", event.EnSheet, videoRow, trVideoRow)
-	trResult, err := sheetSvc.Spreadsheets.Values.Get(event.SheetId, trValueRange).Do()
+	trValueRange := fmt.Sprintf("%s!%d:%d", request.TranslationSheet, videoRow, trVideoRow)
+	trResult, err := sheetSvc.Spreadsheets.Values.Get(request.SheetId, trValueRange).Do()
 	if err != nil {
-		return Result{}, err
+		return apiGwResponse.ErrResponse(err.Error(), ctx)
 	}
 	trRow := trResult.Values[0]
 
-	return Result{
-		VideoCode: getStrValue(trRow, event.ColumnMap.VideoCode),
-		VideoType: getStrValue(row, event.ColumnMap.VideoType),
-		Title: getStrValue(row, event.ColumnMap.Title),
-		MediaLink: getStrValue(row, event.ColumnMap.MediaLink),
-		SourceLink: getStrValue(row, event.ColumnMap.SourceLink),
-		DestinationLink: getStrValue(trRow, event.ColumnMap.SourceLink),
-	}, err
+	final := Result{
+		VideoCode: getStrValue(trRow, request.ColumnMap.VideoCode),
+		VideoType: getStrValue(row, request.ColumnMap.VideoType),
+		Title: getStrValue(row, request.ColumnMap.Title),
+		MediaLink: getStrValue(row, request.ColumnMap.MediaLink),
+		SourceLink: getStrValue(row, request.ColumnMap.SourceLink),
+		DestinationLink: getStrValue(trRow, request.ColumnMap.DestinationLink),
+	}
+
+	return apiGwResponse.OkResponse(final)
 }
