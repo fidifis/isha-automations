@@ -76,6 +76,62 @@ export default class SmcImport extends pulumi.ComponentResource {
       },
       { parent: this },
     );
+    const proxy = new GoLambda(
+      `${name}-Proxy`,
+      {
+        tags: args.meta.tags,
+        source: {
+          code: "../bin/smc-import-smc-proxy.zip",
+          hash: HashFolder("../code/smc-import/smc-proxy/"),
+        },
+        xray,
+        role: smcRole,
+        architecture: Arch.arm,
+        timeout: 60,
+        memory: 128,
+        logs: { retention: 30 },
+        env: {
+          variables: {
+            SSM_GCP_CONFIG: args.gcpConfigParam.name,
+          },
+        },
+      },
+      { parent: this },
+    );
+    const apiGwLambdaSMCProxyRole = new aws.iam.Role(
+      `${name}-SMCProxyApiGwExec`,
+      {
+        tags: args.meta.tags,
+        assumeRolePolicy: aws.iam.getPolicyDocumentOutput(
+          {
+            statements: [
+              {
+                effect: "Allow",
+                principals: [
+                  {
+                    type: "Service",
+                    identifiers: ["apigateway.amazonaws.com"],
+                  },
+                ],
+                actions: ["sts:AssumeRole"],
+              },
+            ],
+          },
+          { parent: this },
+        ).json,
+        inlinePolicies: [ {
+          policy: aws.iam.getPolicyDocumentOutput({
+            statements: [{
+              actions: [
+                "lambda:InvokeFunction",
+              ],
+              resources: [proxy.lambda.arn],
+            }]},
+            { parent: this },
+          ).json,
+        }]},
+      { parent: this },
+    );
 
     const lambdaPrepare = new GoLambda(
       `${name}-Prepare`,
@@ -334,6 +390,12 @@ export default class SmcImport extends pulumi.ComponentResource {
             apiKeyId: "$context.identity.apiKeyId",
           }),
         },
+      },
+      {
+        path: "/v1/smc-import/proxy-fetch",
+        method: "GET",
+        eventHandler: proxy.lambda,
+        execRole: apiGwLambdaSMCProxyRole,
       },
     ];
 
