@@ -505,10 +505,17 @@ export default class VideoRender extends pulumi.ComponentResource {
                 {
                   Next: "Deliver",
                   Condition:
-                    '{% ($deliveryWorkflow) = ("googleSpreadsheet") %}',
+                    "{% ($deliveryWorkflow) = (\"googleSpreadsheet\") %}"
                 },
+                {
+                  Condition: "{% ($deliveryWorkflow) = (\"none\") %}",
+                  Next: "Success"
+                }
               ],
-              Default: "Deliver param Fail",
+              Default: "Deliver param Fail"
+            },
+            "Success": {
+              "Type": "Succeed"
             },
             Deliver: {
               Type: "Task",

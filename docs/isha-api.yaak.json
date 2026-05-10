@@ -1,0 +1,231 @@
+{
+  "yaakVersion": "2026.3.1",
+  "yaakSchema": 4,
+  "timestamp": "2026-05-10T07:48:52.170901028",
+  "resources": {
+    "workspaces": [
+      {
+        "model": "workspace",
+        "id": "wk_WFJwJadSxh",
+        "createdAt": "2026-05-10T06:53:39.875625446",
+        "updatedAt": "2026-05-10T06:53:39.875625888",
+        "authentication": {},
+        "authenticationType": null,
+        "description": "",
+        "headers": [],
+        "name": "Yaak",
+        "encryptionKeyChallenge": null,
+        "settingValidateCertificates": true,
+        "settingFollowRedirects": true,
+        "settingRequestTimeout": 0,
+        "settingDnsOverrides": []
+      }
+    ],
+    "environments": [],
+    "folders": [],
+    "httpRequests": [
+      {
+        "model": "http_request",
+        "id": "rq_Eiw26UogBe",
+        "createdAt": "2026-05-10T07:40:44.990739333",
+        "updatedAt": "2026-05-10T07:48:30.457941922",
+        "workspaceId": "wk_WFJwJadSxh",
+        "folderId": null,
+        "authentication": {},
+        "authenticationType": null,
+        "body": {
+          "text": "{\n  \"videoDriveFolderId\": \"1UfkHRrKNFCZEYiJOp5KXgp1DKdRXr5fB\",\n  \"srtDriveFolderId\": \"1mqCK7iglhETeS9Vr41ARNDGlXcOml4_G\",\n  \"destinationFolderId\": \"1mqCK7iglhETeS9Vr41ARNDGlXcOml4_G\",\n  \"videoFileId\": \"\",\n\n\n  \"videoDriveId\": \"0ADVWBXd8mSDhUk9PVA\",\n  \"srtDriveId\": \"0ANtWVldO3v-xUk9PVA\",\n  \"deliveryWorkflow\": \"none\",\n  \"deliveryParams\": null,\n  \"errDeliveryParams\": null\n}"
+        },
+        "bodyType": "application/json",
+        "description": "",
+        "headers": [
+          {
+            "enabled": true,
+            "name": "x-api-key",
+            "value": "",
+            "id": "CVeiXcIwfm"
+          },
+          {
+            "enabled": true,
+            "name": "Content-Type",
+            "value": "application/json",
+            "id": "bRV555bFGV"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "MPGhNSHrIm"
+          }
+        ],
+        "method": "POST",
+        "name": "video example",
+        "sortPriority": -1778396025814.996,
+        "url": "https://api.isha-automations.fidifis.com/v1/video-render/reel",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_cC8yBvRbtw",
+        "createdAt": "2026-05-10T07:23:04.917748898",
+        "updatedAt": "2026-05-10T07:48:26.464878520",
+        "workspaceId": "wk_WFJwJadSxh",
+        "folderId": null,
+        "authentication": {},
+        "authenticationType": null,
+        "body": {
+          "text": "{\n  \"videoDriveFolderId\": \"...\",\n  \"srtDriveFolderId\": \"...\",\n  \"destinationFolderId\": \"...\",\n  \"videoFileId\": \"\",\n\n\n  \"videoDriveId\": \"0ADVWBXd8mSDhUk9PVA\",\n  \"srtDriveId\": \"0ANtWVldO3v-xUk9PVA\",\n  \"deliveryWorkflow\": \"none\",\n  \"deliveryParams\": null,\n  \"errDeliveryParams\": null\n}"
+        },
+        "bodyType": "application/json",
+        "description": "",
+        "headers": [
+          {
+            "enabled": true,
+            "name": "x-api-key",
+            "value": "",
+            "id": "CVeiXcIwfm"
+          },
+          {
+            "enabled": true,
+            "name": "Content-Type",
+            "value": "application/json",
+            "id": "bRV555bFGV"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "N9ExqY53kS"
+          }
+        ],
+        "method": "POST",
+        "name": "video",
+        "sortPriority": -1778396025814.997,
+        "url": "https://api.isha-automations.fidifis.com/v1/video-render/reel",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_GYWm7xUyqx",
+        "createdAt": "2026-05-10T07:16:05.001096862",
+        "updatedAt": "2026-05-10T07:48:23.447625157",
+        "workspaceId": "wk_WFJwJadSxh",
+        "folderId": null,
+        "authentication": {},
+        "authenticationType": null,
+        "body": {
+          "text": "{\n  \"date\": \"2026-05-01T00:00:00Z\",\n  \"text\": \"...\",\n  \n  \"sourceDriveId\": \"0ADVWBXd8mSDhUk9PVA\",\n  \"destDriveFolderId\": \"1t2JH0vmVPGcWk-sA2UCCeW-Uj5hhEZCY\",\n  \"sourceDriveFolderId\": \"1RSOpu3XrQfJ4NYLsAjR8bAmGVAT_F_eR\"\n}"
+        },
+        "bodyType": "application/json",
+        "description": "",
+        "headers": [
+          {
+            "enabled": true,
+            "name": "x-api-key",
+            "value": "",
+            "id": "CVeiXcIwfm"
+          },
+          {
+            "enabled": true,
+            "name": "Content-Type",
+            "value": "application/json",
+            "id": "bRV555bFGV"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "IUHsdkIa0m"
+          }
+        ],
+        "method": "POST",
+        "name": "DMQ",
+        "sortPriority": -1778396025814.998,
+        "url": "https://api.isha-automations.fidifis.com/v1/dmq/make",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_ntmrBjjXys",
+        "createdAt": "2026-05-10T07:13:18.813620149",
+        "updatedAt": "2026-05-10T07:48:20.323502595",
+        "workspaceId": "wk_WFJwJadSxh",
+        "folderId": null,
+        "authentication": {},
+        "authenticationType": null,
+        "body": {
+          "text": "{\n  \"sourceFolderId\": \"...\",\n  \"destinationFolderId\": \"...\",\n  \n  \"sourceDriveId\": \"0ADVWBXd8mSDhUk9PVA\",\n  \"destinationDriveId\": \"0ANtWVldO3v-xUk9PVA\",\n  \"templateFileId\": \"14VBEMHt03JNWXS8nKrg31JfpGdsiQwwl5mMIrFFjht0\"\n}"
+        },
+        "bodyType": "application/json",
+        "description": "",
+        "headers": [
+          {
+            "enabled": true,
+            "name": "x-api-key",
+            "value": "",
+            "id": "CVeiXcIwfm"
+          },
+          {
+            "enabled": true,
+            "name": "Content-Type",
+            "value": "application/json",
+            "id": "bRV555bFGV"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "Cwx00ptr7T"
+          }
+        ],
+        "method": "POST",
+        "name": "Import to destination",
+        "sortPriority": -1778396025814.999,
+        "url": "https://api.isha-automations.fidifis.com/v1/smc-import/run",
+        "urlParameters": []
+      },
+      {
+        "model": "http_request",
+        "id": "rq_KCs5P5nXZQ",
+        "createdAt": "2026-05-10T06:53:45.817603455",
+        "updatedAt": "2026-05-10T07:48:15.653325759",
+        "workspaceId": "wk_WFJwJadSxh",
+        "folderId": null,
+        "authentication": {},
+        "authenticationType": null,
+        "body": {
+          "text": "{\n  \"videoId\": \"ifPmv4t8dkw\",\n  \n  \"smcSpreadSheetId\": \"1BGxTfnvs3zezyJVTSXroy9N0l7j5QHbzPzRj_TSjO-c\",\n  \"smcEnSheet\": \"English\",\n  \"smcLangSheet\": \"cze\",\n  \"columnMap\": {\n    \"videoCode\": 9,\n    \"videoType\": 7,\n    \"title\": 8,\n    \"mediaLink\": 1,\n    \"sourceLink\": 21,\n    \"destinationLink\": 9\n  }\n}"
+        },
+        "bodyType": "application/json",
+        "description": "",
+        "headers": [
+          {
+            "enabled": true,
+            "name": "x-api-key",
+            "value": "",
+            "id": "CVeiXcIwfm"
+          },
+          {
+            "enabled": true,
+            "name": "Content-Type",
+            "value": "application/json",
+            "id": "bRV555bFGV"
+          },
+          {
+            "enabled": true,
+            "name": "",
+            "value": "",
+            "id": "2h9Kp9pNVE"
+          }
+        ],
+        "method": "POST",
+        "name": "SM catalog",
+        "sortPriority": -1778396025815.0,
+        "url": "https://api.isha-automations.fidifis.com/v1/smc-import/proxy-fetch",
+        "urlParameters": []
+      }
+    ],
+    "grpcRequests": [],
+    "websocketRequests": []
+  }
+}

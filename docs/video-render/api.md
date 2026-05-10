@@ -33,7 +33,7 @@ Starts an asynchronous render job. The HTTP call returns 200 as soon as the work
 - `destinationFolderId`
     + Drive folder ID where the rendered `OUT_video.mp4` is uploaded.
 - `deliveryWorkflow`
-    + Required. Selects the result delivery channel. Currently only `googleSpreadsheet` is supported.
+    + Required. Selects the result delivery channel. `googleSpreadsheet` or `none`.
 - `deliveryParams`
     + Required. **JSON-encoded string** describing where to write the success status. See [Delivery params](#delivery-params) below.
 - `errDeliveryParams`
