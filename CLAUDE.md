@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-AWS serverless automation infrastructure for Isha Foundation workflows. Infrastructure is defined with Pulumi (TypeScript), Lambda functions are written in Go, deployed to AWS (`eu-north-1`). State is stored in S3: `s3://fidifis-iac-states?region=eu-west-1&awssdk=v2&profile=fidifis-isha-automations`.
+AWS serverless automation infrastructure for Isha Foundation workflows. Infrastructure is defined with Pulumi (TypeScript), Lambda functions are written in Go, deployed to AWS (`eu-north-1`). State is stored in S3: `s3://isha-automations-state-956941652442-eu-north-1-an?region=eu-north-1&awssdk=v2&profile=isha-automations`.
 
 ## Environment Setup
 
@@ -43,8 +43,8 @@ Without a container engine, run the scripts directly — the container is only a
 **Pulumi setup** (first time):
 ```bash
 cd pulumi
-pulumi login 's3://fidifis-iac-states?region=eu-west-1&awssdk=v2&profile=fidifis-isha-automations'
-npm install
+pulumi login 's3://isha-automations-state-956941652442-eu-north-1-an?region=eu-north-1&awssdk=v2&profile=isha-automations'
+pulumi install
 ```
 
 **Deploy / preview**:

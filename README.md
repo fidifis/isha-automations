@@ -10,7 +10,7 @@ We are using serverless AWS Lambda functions and Step Functions. Code is written
 
 # pulumi setup
 
-pulumi login 's3://fidifis-iac-states?region=eu-west-1&awssdk=v2&profile=fidifis-isha-automations'
+pulumi login 's3://isha-automations-state-956941652442-eu-north-1-an?region=eu-north-1&awssdk=v2&profile=isha-automations'
 
 pulumi install
 
