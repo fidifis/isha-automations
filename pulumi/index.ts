@@ -32,6 +32,8 @@ async function main() {
   const tags = {
     project: pulumi.getProject(),
     env: pulumi.getStack(),
+    iac: "pulumi",
+    state: "s3://isha-automations-state-956941652442-eu-north-1-an",
   };
   const meta: MetaProps = {
     accountId: (await aws.getCallerIdentity({})).accountId,
